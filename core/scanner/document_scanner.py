@@ -2,7 +2,7 @@ from pathlib import Path
 from models.media import Media
 
 DOCUMENT_EXTENSIONS = {
-    ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt"
+    ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".txt",  ".csv", ".zip", ".rar", ".7z"
 }
 
 def scan_documents(folder_path):

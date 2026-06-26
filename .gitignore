@@ -1,7 +1,11 @@
+.venv/
 __pycache__/
 *.pyc
-.vscode/
-.env
-build/
-dist/
-*.apk
+
+test_media/
+cache/
+data/
+.greeverse_trash/
+
+.kivy/
+*.log

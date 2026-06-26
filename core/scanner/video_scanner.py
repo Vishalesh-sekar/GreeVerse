@@ -2,7 +2,7 @@ from pathlib import Path
 from models.media import Media
 
 VIDEO_EXTENSIONS = {
-    ".mp4", ".mkv", ".avi", ".mov", ".webm"
+    ".mp4", ".mkv", ".avi", ".mov", ".webm", "3gp"
 }
 
 def scan_videos(folder_path):
