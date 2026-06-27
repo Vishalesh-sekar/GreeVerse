@@ -46,8 +46,7 @@ class SearchScreen(Screen):
     def search(self):
         self.results_box.clear_widgets()
 
-        query = self.search_input.text
-        results = search_media(all_media, query)
+        results = search_media(all_media, self.search_input.text)
 
         for media in results:
             btn = Button(

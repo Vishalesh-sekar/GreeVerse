@@ -10,7 +10,7 @@ class SettingsScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        root = BoxLayout(orientation="vertical", padding=10, spacing=10)
+        root = BoxLayout(orientation="vertical", padding=12, spacing=10)
 
         self.label = Label(color=(0, 0, 0, 1))
 
@@ -34,8 +34,7 @@ class SettingsScreen(Screen):
         self.add_widget(root)
 
     def on_pre_enter(self):
-        settings = load_settings()
-        self.label.text = str(settings)
+        self.label.text = str(load_settings())
 
     def set_theme(self, theme):
         update_setting("theme", theme)

@@ -1,12 +1,9 @@
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
 
 from app.screens.base_screen import BaseScreen
 from app.media_store import get_documents
-from core.documents.document_opener import open_document
-from core.privacy.private_access import is_private
-from core.privacy.password_manager import verify_password
+from app.widgets.media_card import MediaCard
 
 
 class DocumentsScreen(BaseScreen):
@@ -18,28 +15,17 @@ class DocumentsScreen(BaseScreen):
         self.content.clear_widgets()
 
         scroll = ScrollView()
-        grid = GridLayout(cols=1, spacing=8, padding=8, size_hint_y=None)
+        grid = GridLayout(cols=1, spacing=10, padding=10, size_hint_y=None)
         grid.bind(minimum_height=grid.setter("height"))
 
         for media in get_documents():
-            btn = Button(
-                text=f"📄 {media.name}",
-                size_hint_y=None,
-                height=65
-            )
-            btn.bind(on_release=lambda instance, m=media: self.open_doc(m))
-            grid.add_widget(btn)
+            card = MediaCard(media, on_open=self.open_document_details)
+            grid.add_widget(card)
 
         scroll.add_widget(grid)
         self.content.add_widget(scroll)
 
-    def open_doc(self, media):
-        if is_private(media):
-            password = input("Enter password: ")
-
-            if verify_password(password):
-                open_document(media)
-            else:
-                print("Wrong password")
-        else:
-            open_document(media)
+    def open_document_details(self, media):
+        details = self.manager.get_screen("document_details")
+        details.set_document(media)
+        self.manager.current = "document_details"

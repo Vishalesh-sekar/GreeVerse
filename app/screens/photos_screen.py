@@ -1,9 +1,9 @@
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
 
 from app.screens.base_screen import BaseScreen
 from app.media_store import get_images
+from app.widgets.media_card import MediaCard
 
 
 class PhotosScreen(BaseScreen):
@@ -15,17 +15,12 @@ class PhotosScreen(BaseScreen):
         self.content.clear_widgets()
 
         scroll = ScrollView()
-        grid = GridLayout(cols=3, spacing=8, padding=8, size_hint_y=None)
+        grid = GridLayout(cols=3, spacing=10, padding=10, size_hint_y=None)
         grid.bind(minimum_height=grid.setter("height"))
 
         for media in get_images():
-            btn = Button(
-                text=media.name,
-                size_hint_y=None,
-                height=120
-            )
-            btn.bind(on_release=lambda instance, m=media: self.open_image(m))
-            grid.add_widget(btn)
+            card = MediaCard(media, on_open=self.open_image, thumbnail=media.path)
+            grid.add_widget(card)
 
         scroll.add_widget(grid)
         self.content.add_widget(scroll)

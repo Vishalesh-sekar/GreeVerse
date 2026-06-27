@@ -1,9 +1,8 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
 
-from app.theme.colors import BACKGROUND, NECTARINE, LAGOON
+from app.widgets.top_bar import TopBar
+from app.widgets.bottom_nav import BottomNav
 
 
 class BaseScreen(Screen):
@@ -12,31 +11,15 @@ class BaseScreen(Screen):
     def build_root(self, title):
         root = BoxLayout(orientation="vertical")
 
-        top_bar = BoxLayout(size_hint_y=None, height=55)
-        title_label = Label(
-            text=f"[b]GreeVerse - {title}[/b]",
-            markup=True,
-            color=(0, 0, 0, 1)
+        top_bar = TopBar(
+            title=f"GreeVerse - {title}",
+            on_search=lambda: self.go_to("search"),
+            on_settings=lambda: self.go_to("settings")
         )
-
-        search_btn = Button(text="Search", size_hint_x=0.25)
-        search_btn.bind(on_release=lambda x: self.go_to("search"))
-
-        settings_btn = Button(text="⚙", size_hint_x=0.15)
-        settings_btn.bind(on_release=lambda x: self.go_to("settings"))
-
-        top_bar.add_widget(title_label)
-        top_bar.add_widget(search_btn)
-        top_bar.add_widget(settings_btn)
 
         self.content = BoxLayout(orientation="vertical")
 
-        bottom_nav = BoxLayout(size_hint_y=None, height=55)
-
-        for name in self.section_order:
-            btn = Button(text=name.capitalize())
-            btn.bind(on_release=lambda instance, screen=name: self.go_to(screen))
-            bottom_nav.add_widget(btn)
+        bottom_nav = BottomNav(on_navigate=self.go_to)
 
         root.add_widget(top_bar)
         root.add_widget(self.content)

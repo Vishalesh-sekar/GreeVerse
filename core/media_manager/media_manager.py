@@ -65,3 +65,25 @@ def move_file(media, destination_folder):
     media.path = str(new_path)
 
     return media
+
+def safe_delete_file(media, trash_folder="data/trash"):
+    destination = Path(trash_folder)
+    destination.mkdir(parents=True, exist_ok=True)
+
+    old_path = Path(media.path)
+
+    if not old_path.exists():
+        return None
+
+    new_path = destination / media.name
+
+    counter = 1
+    while new_path.exists():
+        new_path = destination / f"{old_path.stem}_{counter}{old_path.suffix}"
+        counter += 1
+
+    shutil.move(str(old_path), str(new_path))
+
+    media.path = str(new_path)
+
+    return media

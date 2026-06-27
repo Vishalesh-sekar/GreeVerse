@@ -1,9 +1,9 @@
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button
 
 from app.screens.base_screen import BaseScreen
 from app.media_store import get_audio
+from app.widgets.media_card import MediaCard
 
 
 class AudioScreen(BaseScreen):
@@ -15,17 +15,12 @@ class AudioScreen(BaseScreen):
         self.content.clear_widgets()
 
         scroll = ScrollView()
-        grid = GridLayout(cols=1, spacing=8, padding=8, size_hint_y=None)
+        grid = GridLayout(cols=1, spacing=10, padding=10, size_hint_y=None)
         grid.bind(minimum_height=grid.setter("height"))
 
         for media in get_audio():
-            btn = Button(
-                text=f"🎵 {media.name}",
-                size_hint_y=None,
-                height=65
-            )
-            btn.bind(on_release=lambda instance, m=media: self.open_audio(m))
-            grid.add_widget(btn)
+            card = MediaCard(media, on_open=self.open_audio)
+            grid.add_widget(card)
 
         scroll.add_widget(grid)
         self.content.add_widget(scroll)

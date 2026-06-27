@@ -12,6 +12,10 @@ def load_media():
     return all_media
 
 
+def refresh_media():
+    return load_media()
+
+
 def get_images():
     return filter_by_type(all_media, "photo")
 
